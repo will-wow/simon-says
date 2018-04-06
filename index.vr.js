@@ -1,9 +1,9 @@
 import * as React from "react";
 import { AppRegistry } from "react-vr";
 
-import SimonSays from "./src/SimonSays";
+import Router from "./src/Router";
 
-const App = () => <SimonSays />;
+const App = () => <Router />;
 
 export default App;
 

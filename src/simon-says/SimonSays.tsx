@@ -1,5 +1,5 @@
 import * as React from "react";
-import { asset, View, Pano, AmbientLight, VrButton, Sphere } from "react-vr";
+import { asset, View, Pano, AmbientLight } from "react-vr";
 
 import NotePillar from "./NotePillar";
 
