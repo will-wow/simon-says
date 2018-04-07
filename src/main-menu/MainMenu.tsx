@@ -4,10 +4,13 @@ import { asset, View, Pano } from "react-vr";
 import Title from "./Title";
 import Button from "./Button";
 
-import SimonSays from "../simon-says/SimonSays";
-import TicTacToe from "../tic-tac-toe/TicTacToe";
+import * as Route from "../router/Route";
 
-const MainMenu = ({ onRoute }) => (
+interface MainMenuProps {
+  onRoute: Route.onRoute;
+}
+
+const MainMenu = ({ onRoute }: MainMenuProps) => (
   <View
     style={{
       flex: 1,
@@ -20,8 +23,8 @@ const MainMenu = ({ onRoute }) => (
   >
     <Pano source={asset("fort-night.jpg")} />
     <Title />
-    <Button onClick={onRoute(TicTacToe)} text="Tic Tac Toe" />
-    <Button onClick={onRoute(SimonSays)} text="Simon Says" />
+    <Button onClick={onRoute("TicTacToe")} text="Tic Tac Toe" />
+    <Button onClick={onRoute("SimonSays")} text="Simon Says" />
   </View>
 );
 

@@ -24,14 +24,8 @@ const defaultState: TicTacToeState = {
   winner: null
 };
 
-class TicTacToe extends React.Component {
-  state: TicTacToeState;
-
-  constructor(props) {
-    super(props);
-
-    this.state = defaultState;
-  }
+class TicTacToe extends React.Component<{}, TicTacToeState> {
+  state = defaultState;
 
   onMove = index => {
     const { winner, game, currentPlayer } = this.state;

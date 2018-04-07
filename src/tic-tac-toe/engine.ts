@@ -2,10 +2,16 @@ import * as R from "ramda";
 
 import { mapIndexed, intersects, maxOf } from "../shared/Util";
 
-import { Player, Tile, Direction, Game } from "./TicTacToeGame";
+import { Player, Tile, Direction, Game, Winner } from "./TicTacToeGame";
 
 type TilePredicate = (tile: Tile) => boolean;
 type IndexTilePair = [number, Tile];
+
+interface HasLine {
+  line: boolean;
+  direction?: Direction;
+  position?: number;
+}
 
 export const nextPlayer = player => {
   switch (player) {
@@ -21,14 +27,14 @@ export const nextPlayer = player => {
   }
 };
 
-export const indexToCoordinates = index => {
+export const indexToCoordinates = (index: number): [number, number] => {
   const x = indexToX(index);
   const y = indexToY(index);
 
   return [x, y];
 };
 
-export const findWinner = indexes => {
+export const findWinner = (indexes: Game): Winner => {
   const xResult = didXWin(indexes);
   const oResult = didOWin(indexes);
 
@@ -65,7 +71,7 @@ const filterMathchingTiles = (
 ): ((pairs: IndexTilePair[]) => [number, Tile][]) =>
   R.filter(([, tile]: IndexTilePair) => predicate(tile));
 
-const hasLine = (indexes: number[]) => {
+const hasLine = (indexes: number[]): HasLine => {
   if (indexes.length === 0) {
     return { line: false };
   }
@@ -91,7 +97,7 @@ const hasLine = (indexes: number[]) => {
   return { line: false };
 };
 
-const hasWinner = (type: Player) =>
+const hasWinner = (type: Player): ((game: Game) => HasLine) =>
   R.pipe(game => indexesOfType(game, type), hasLine);
 const didXWin = hasWinner("x");
 const didOWin = hasWinner("o");

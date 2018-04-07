@@ -2,8 +2,10 @@
 
 export type Player = "x" | "o";
 export type Tile = Player | "";
-export type Direction = "x" | "y";
+export type Direction = "x" | "y" | "d";
 export type Game = Tile[];
 export type Winner = {
-  player: Player;
+  player: Player | "cats";
+  direction?: Direction;
+  position?: number;
 };
