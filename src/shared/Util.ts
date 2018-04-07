@@ -14,6 +14,9 @@ export const mapIndexed = R.addIndex(R.map);
 export const intersects = (xs, ys) =>
   R.pipe(R.map(x => R.contains(x, ys)), R.all(R.identity))(xs);
 
-export const maxOf = predicate => R.pipe(R.sortBy(predicate), R.last);
+export const maxOf = <T>(fn: (x: T) => any): ((xs: T[]) => T) =>
+  R.pipe(R.sortBy(fn), lastElement);
 
 export const square = (x: number): number => x * x;
+
+const lastElement: <T>(xs: T[]) => T = R.last;

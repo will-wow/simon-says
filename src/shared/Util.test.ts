@@ -1,6 +1,6 @@
 import { intersects, maxOf } from "./Util";
 
-describe("utils", () => {
+describe("Util", () => {
   describe("intersects", () => {
     it("finds an intersection", () => {
       expect(intersects([1, 3], [3, 4, 1])).toBeTruthy();
