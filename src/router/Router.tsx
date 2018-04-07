@@ -1,50 +1,42 @@
 import * as React from "react";
 import { View } from "react-vr";
+import { withViewModel } from "@rxreact/core";
 
-React.Component;
+import * as Route from "../signal-graph/Route";
+import Hud from "../hud/Hud";
 
 import MainMenu from "../main-menu/MainMenu";
 import SimonSays from "../simon-says/SimonSays";
 import TicTacToe from "../tic-tac-toe/TicTacToe";
-import Hud from "../hud/Hud";
 
-import * as Route from "./Route";
-
-interface RouterState {
-  activeComponent: Route.RoutableComponent;
+interface RouterProps {
+  activeRoute: string;
 }
 
-const routes = {
+export const routes = {
   MainMenu,
   SimonSays,
   TicTacToe
 };
 
-class Router extends React.Component<{}, RouterState> {
-  state: RouterState = {
-    activeComponent: "MainMenu"
-  };
+const Router: React.SFC<RouterProps> = ({ activeRoute }) => {
+  const ActiveComponent = routes[activeRoute];
 
-  onRoute: Route.onRoute = activeComponent => () =>
-    this.setState({ activeComponent });
+  return (
+    <View style={{ position: "relative" }}>
+      <ActiveComponent />
+      <Hud />
+    </View>
+  );
+};
 
-  onMute = (): void => {};
+const vm = {
+  inputs: {
+    activeRoute: Route.selectRoute$
+  },
+  outputs: {}
+};
 
-  render() {
-    const { activeComponent } = this.state;
-    const ActiveComponent = routes[activeComponent];
+export { Router };
 
-    return (
-      <View>
-        <ActiveComponent onRoute={this.onRoute} />
-        <Hud
-          onRoute={this.onRoute}
-          onMute={this.onMute}
-          currentRoute={activeComponent}
-        />
-      </View>
-    );
-  }
-}
-
-export default Router;
+export default withViewModel(vm, Router);

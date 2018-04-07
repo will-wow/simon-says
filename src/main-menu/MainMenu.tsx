@@ -1,16 +1,17 @@
 import * as React from "react";
 import { asset, View, Pano } from "react-vr";
+import { withViewModel } from "@rxreact/core";
+
+import * as Route from "../signal-graph/Route";
 
 import Title from "./Title";
 import Button from "./Button";
 
-import * as Route from "../router/Route";
-
 interface MainMenuProps {
-  onRoute: Route.onRoute;
+  onRoute: (activeRoute: any) => void;
 }
 
-const MainMenu = ({ onRoute }: MainMenuProps) => (
+const MainMenu: React.SFC<MainMenuProps> = ({ onRoute }) => (
   <View
     style={{
       flex: 1,
@@ -23,9 +24,20 @@ const MainMenu = ({ onRoute }: MainMenuProps) => (
   >
     <Pano source={asset("fort-night.jpg")} />
     <Title />
-    <Button onClick={onRoute("TicTacToe")} text="Tic Tac Toe" />
-    <Button onClick={onRoute("SimonSays")} text="Simon Says" />
+    <Button onClick={() => onRoute("TicTacToe")} text="Tic Tac Toe" />
+    <Button onClick={() => onRoute("SimonSays")} text="Simon Says" />
   </View>
 );
 
-export default MainMenu;
+const vm = {
+  inputs: {
+    activeRoute: Route.selectRoute$
+  },
+  outputs: {
+    onRoute: Route.selectRoute$
+  }
+};
+
+export { MainMenu };
+
+export default withViewModel(vm, MainMenu);

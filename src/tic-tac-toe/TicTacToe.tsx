@@ -1,14 +1,21 @@
 import * as React from "react";
 import { asset, View, Sound, Pano } from "react-vr";
+import { withViewModel } from "@rxreact/core";
 import * as R from "ramda";
 
-import { Player, Tile, Game, Winner } from "./TicTacToeGame";
+import * as Mute from "../signal-graph/Mute";
 
 import Field from "./Field";
+import EndGameMessage from "./EndGameMessage";
 
+import { Player, Tile, Game, Winner } from "./TicTacToeGame";
 import { nextPlayer, findWinner } from "./engine";
 import { nextMove } from "./ai";
-import EndGameMessage from "./EndGameMessage";
+
+interface TicTacToeProps {
+  mute: boolean;
+  onMute: any;
+}
 
 interface TicTacToeState {
   game: Game;
@@ -24,7 +31,7 @@ const defaultState: TicTacToeState = {
   winner: null
 };
 
-class TicTacToe extends React.Component<{}, TicTacToeState> {
+class TicTacToe extends React.Component<TicTacToeProps, TicTacToeState> {
   state = defaultState;
 
   onMove = index => {
@@ -66,6 +73,7 @@ class TicTacToe extends React.Component<{}, TicTacToeState> {
 
   render() {
     const { game, winner } = this.state;
+    const { mute } = this.props;
 
     return (
       <View>
@@ -75,6 +83,8 @@ class TicTacToe extends React.Component<{}, TicTacToeState> {
           source={{
             mp3: asset("tetris.mp3")
           }}
+          autoPlay={false}
+          playControl={mute ? "pause" : "play"}
         />
         {winner && (
           <EndGameMessage player={winner.player} onClick={this.onReset} />
@@ -85,4 +95,15 @@ class TicTacToe extends React.Component<{}, TicTacToeState> {
   }
 }
 
-export default TicTacToe;
+const vm = {
+  inputs: {
+    mute: Mute.mute$
+  },
+  outputs: {
+    onMute: Mute.selectToggleMute$
+  }
+};
+
+export { TicTacToe };
+
+export default withViewModel(vm, TicTacToe);
