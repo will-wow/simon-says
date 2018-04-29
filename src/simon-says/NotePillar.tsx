@@ -1,5 +1,5 @@
 import * as React from "react";
-import { asset, Cylinder, VrButton, Sound, PointLight } from "react-vr";
+import { asset, Box, Cylinder, VrButton, Sound, PointLight } from "react-vr";
 
 import * as Vector from "./Vector";
 import { noteToColor } from "./Note";
@@ -31,6 +31,8 @@ class NotePillar extends React.Component<NotePillarProps, NotePillarState> {
     const { playing } = this.state;
     const { note, translate } = this.props;
 
+    const radius = playing ? 0.6 : 0.5;
+
     return (
       <VrButton
         onClick={this.play}
@@ -38,15 +40,18 @@ class NotePillar extends React.Component<NotePillarProps, NotePillarState> {
           transform: [{ translate }]
         }}
       >
-        {playing && <PointLight />}
+        {playing && <PointLight intensity={0.25} />}
         <Cylinder
-          radiusTop={-0.5}
-          radiusBottom={-0.5}
+          radiusTop={radius}
+          radiusBottom={radius}
           dimHeight={10}
           lit={true}
-          style={{
-            color: noteToColor(note)
-          }}
+          style={
+            {
+              color: noteToColor(note),
+            }
+          }
+          texture={asset("marble.jpg")}
         >
           <Sound
             source={{
