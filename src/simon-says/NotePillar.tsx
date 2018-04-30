@@ -1,11 +1,11 @@
 import * as React from "react";
-import { asset, Box, Cylinder, VrButton, Sound, PointLight } from "react-vr";
+import { asset, Cylinder, VrButton, Sound, PointLight } from "react-vr";
 
 import * as Vector from "./Vector";
-import { noteToColor } from "./Note";
+import * as Note from "./Note";
 
 interface NotePillarProps {
-  note: string;
+  note: Note.t;
   translate: Vector.t;
 }
 
@@ -48,7 +48,7 @@ class NotePillar extends React.Component<NotePillarProps, NotePillarState> {
           lit={true}
           style={
             {
-              color: noteToColor(note),
+              color: Note.noteToColor(note),
             }
           }
           texture={asset("marble.jpg")}
