@@ -19,4 +19,9 @@ export const maxOf = <T>(fn: (x: T) => any): ((xs: T[]) => T) =>
 
 export const square = (x: number): number => x * x;
 
+export const sample = <T>(list: T[]): T => {
+  const index = Math.floor(Math.random() * list.length);
+  return list[index];
+};
+
 const lastElement: <T>(xs: T[]) => T = R.last;

@@ -11,7 +11,7 @@ interface MainMenuProps {
   onRoute: (activeRoute: any) => void;
 }
 
-const MainMenu: React.SFC<MainMenuProps> = ({ onRoute }) => (
+export const MainMenu: React.SFC<MainMenuProps> = ({ onRoute }) => (
   <View
     style={{
       flex: 1,
@@ -37,7 +37,5 @@ const vm = {
     onRoute: Route.selectRoute$
   }
 };
-
-export { MainMenu };
 
 export default withViewModel(vm, MainMenu);
